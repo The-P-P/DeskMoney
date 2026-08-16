@@ -6,8 +6,23 @@ Controle de gastos pessoais com experiência premium — aplicativo nativo para 
 - Moeda **BRL**
 - Persistência local **SQLite**
 - Auth local + **modo demonstração**
+- Atualização in-app via GitHub Releases
 
-## Pré-requisitos
+## Download
+
+Instalador Windows (qualquer pessoa):
+
+➡️ **[Baixar a última versão](https://github.com/The-P-P/DeskMoney/releases/latest)**
+
+1. Abra a release mais recente
+2. Baixe `BysMoney_*_x64-setup.exe` em **Assets**
+3. Execute o instalador (instalação por usuário, sem admin)
+
+> Na primeira execução o Windows SmartScreen pode avisar (“Windows protegeu o computador”) porque o instalador ainda não tem certificado Authenticode pago. Use **Mais informações → Executar assim mesmo**.
+
+Depois de instalado, atualize pelo próprio app: **Configurações → Sobre e atualizações → Verificar atualizações**.
+
+## Pré-requisitos (desenvolvimento)
 
 1. **Node.js** 20+ e npm  
 2. **Rust** (stable) — [rustup](https://rustup.rs/)  
@@ -42,9 +57,13 @@ Scripts úteis:
 | `npm run build` | Build do frontend (`tsc` + Vite) |
 | `npm run tauri:build` | Build + instalador Windows |
 
-## Build do instalador Windows
+## Build do instalador Windows (local)
 
 ```powershell
+# Chave de assinatura do updater (obrigatória com createUpdaterArtifacts)
+$env:TAURI_SIGNING_PRIVATE_KEY = Get-Content "$env:USERPROFILE\.tauri\bysmoney.key" -Raw
+$env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = Get-Content "$env:USERPROFILE\.tauri\bysmoney.key.password" -Raw
+
 npm run tauri:build
 ```
 
@@ -54,13 +73,30 @@ O bundle NSIS (`.exe`) fica em:
 src-tauri\target\release\bundle\nsis\
 ```
 
-O executável portátil também é gerado em:
+Também são gerados `.sig` e, no CI, o `latest.json` para o atualizador.
 
-```
-src-tauri\target\release\bysmoney.exe
+## Publicar uma nova versão (GitHub Releases)
+
+1. Atualize a versão em `package.json`, `src-tauri/Cargo.toml` e `src-tauri/tauri.conf.json` (mesmo número, ex. `0.1.1`)
+2. Commit e push em `main`
+3. Crie e envie a tag:
+
+```powershell
+git tag v0.1.1
+git push origin v0.1.1
 ```
 
-> **Nota:** o projeto está configurado com `bundle.targets: ["nsis"]`. Se quiser MSI (WiX Toolset), altere `src-tauri/tauri.conf.json` para incluir `"msi"`.
+4. O workflow **Release** (GitHub Actions) gera o instalador Windows, assina o update e publica a Release
+5. Usuários com o app instalado usam **Verificar atualizações** nas Configurações
+
+Secrets necessários no repositório (`Settings → Secrets and variables → Actions`):
+
+| Secret | Conteúdo |
+|--------|----------|
+| `TAURI_SIGNING_PRIVATE_KEY` | Conteúdo de `~\.tauri\bysmoney.key` |
+| `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | Senha da chave |
+
+Guarde a chave privada e a senha com segurança. Se perdê-las, quem já instalou o app **não recebe mais updates** até reinstalar.
 
 ## Estrutura
 
@@ -73,6 +109,7 @@ src/
   stores/       Sessão, UI, recentes (Zustand)
   lib/          Dinheiro (centavos), datas, export CSV/PDF, atalhos
 src-tauri/      Shell Tauri 2 + migrations SQL
+.github/        CI de release (Windows NSIS + updater)
 ```
 
 ## Funcionalidades (v1)
@@ -81,7 +118,7 @@ src-tauri/      Shell Tauri 2 + migrations SQL
 - Finanças: Lançamentos, Futuros, Contas, Categorias  
 - Planejamento: Orçamentos, Metas, Recorrentes  
 - Relatórios (5 abas) + export CSV/PDF  
-- Configurações: perfil, preferências, tema, notificações, PIN, LGPD  
+- Configurações: perfil, preferências, tema, notificações, PIN, LGPD, **atualizações**  
 - Busca rápida (Ctrl+K), atalhos `g`+letra, `n`, `?`  
 - Tema Claro / Escuro / Sistema  
 - Ocultar saldos + PIN para contas arquivadas  
@@ -97,7 +134,8 @@ src-tauri/      Shell Tauri 2 + migrations SQL
 - [ ] Preferências, tema, ocultar saldos, PIN, LGPD  
 - [ ] Modo demo + categorias padrão  
 - [ ] pt-BR + BRL  
-- [ ] Instalador Windows (`npm run tauri:build`)  
+- [x] Instalador Windows (`npm run tauri:build` / GitHub Releases)  
+- [x] Atualização in-app (Configurações)  
 
 ## Fora de escopo v1
 

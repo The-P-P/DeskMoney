@@ -56,6 +56,7 @@ import {
 import { exportLgpdJson } from "@/lib/export";
 import { formatDate } from "@/lib/dates";
 import { useUserId } from "@/features/shared/use-user-id";
+import { AppUpdateCard } from "@/features/settings/app-update-card";
 import { useSessionStore, useUiStore } from "@/stores";
 
 export function SettingsPage() {
@@ -611,6 +612,9 @@ export function SettingsPage() {
           </AlertDialog>
         </CardContent>
       </Card>
+
+      {/* 7. Sobre e atualizações */}
+      <AppUpdateCard />
     </div>
   );
 }

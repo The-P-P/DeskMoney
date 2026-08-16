@@ -28,6 +28,7 @@
   "bundle": {
     "active": true,
     "targets": ["nsis"],
+    "createUpdaterArtifacts": true,
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -44,6 +45,15 @@
   "plugins": {
     "sql": {
       "preload": ["sqlite:bysmoney.db"]
+    },
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEE5MTUxMkVFQUJGQzdGMkQKUldRdGYveXI3aElWcVhiYW9qUXZGMFBUQyt2L25CN3JFZFhTYThsY3ZhMHVPZ0pDWTdwaWFyeTUK",
+      "endpoints": [
+        "https://github.com/The-P-P/DeskMoney/releases/latest/download/latest.json"
+      ],
+      "windows": {
+        "installMode": "passive"
+      }
     }
   }
 }
