@@ -7,6 +7,7 @@ import {
 import { useEffect } from "react";
 import { useSessionStore } from "@/stores";
 import { getCurrentSession } from "@/db";
+import { SplashScreen } from "@/components/layout/splash-screen";
 import { AppShell } from "@/components/layout/app-shell";
 import { WelcomePage } from "@/features/auth/welcome-page";
 import { LoginPage } from "@/features/auth/login-page";
@@ -17,6 +18,14 @@ import { PlanningPage } from "@/features/planning/planning-page";
 import { ReportsPage } from "@/features/reports/reports-page";
 import { SettingsPage } from "@/features/settings/settings-page";
 
+const SPLASH_MIN_MS = 900;
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
+}
+
 function Bootstrapped({ children }: { children: React.ReactNode }) {
   const ready = useSessionStore((s) => s.ready);
   const setProfile = useSessionStore((s) => s.setProfile);
@@ -26,11 +35,19 @@ function Bootstrapped({ children }: { children: React.ReactNode }) {
     let cancelled = false;
     (async () => {
       try {
-        const profile = await getCurrentSession();
-        if (!cancelled) setProfile(profile);
-      } catch (err) {
-        console.error(err);
-        if (!cancelled) setProfile(null);
+        const [session] = await Promise.all([
+          getCurrentSession()
+            .then((profile) => ({ ok: true as const, profile }))
+            .catch((err: unknown) => ({ ok: false as const, err })),
+          sleep(SPLASH_MIN_MS),
+        ]);
+        if (cancelled) return;
+        if (session.ok) {
+          setProfile(session.profile);
+        } else {
+          console.error(session.err);
+          setProfile(null);
+        }
       } finally {
         if (!cancelled) setReady(true);
       }
@@ -41,11 +58,7 @@ function Bootstrapped({ children }: { children: React.ReactNode }) {
   }, [setProfile, setReady]);
 
   if (!ready) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background text-muted-foreground">
-        Carregando BysMoney…
-      </div>
-    );
+    return <SplashScreen />;
   }
 
   return children;

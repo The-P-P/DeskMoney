@@ -221,13 +221,15 @@ class PdfReportBuilder {
     setFill(this.doc, COLORS.primaryDark);
     this.doc.rect(0, headerH - 3, PAGE_W, 3, "F");
 
-    // Brand mark
+    // Brand mark (indigo squircle + white B)
     setFill(this.doc, COLORS.white);
-    this.doc.roundedRect(MARGIN, 10, 10, 10, 2, 2, "F");
-    setText(this.doc, COLORS.primary);
+    this.doc.roundedRect(MARGIN, 10, 10, 10, 2.2, 2.2, "F");
+    setFill(this.doc, COLORS.primary);
+    this.doc.roundedRect(MARGIN + 0.6, 10.6, 8.8, 8.8, 1.8, 1.8, "F");
+    setText(this.doc, COLORS.white);
     this.doc.setFont("helvetica", "bold");
-    this.doc.setFontSize(9);
-    this.doc.text("B", MARGIN + 3.2, 17);
+    this.doc.setFontSize(8);
+    this.doc.text("B", MARGIN + 3.35, 16.85);
 
     setText(this.doc, COLORS.white);
     this.doc.setFont("helvetica", "bold");

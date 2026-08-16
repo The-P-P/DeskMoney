@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-label="BysMoney">
+  <defs>
+    <linearGradient id="bys-bg" x1="20" y1="8" x2="108" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#4F46E5"/>
+    </linearGradient>
+    <linearGradient id="bys-shine" x1="64" y1="0" x2="64" y2="72" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="32" fill="url(#bys-bg)"/>
+  <rect width="128" height="64" rx="32" fill="url(#bys-shine)"/>
+  <path
+    fill="#FFFFFF"
+    d="M40 30h32.5c13.8 0 25 9.4 25 22.5 0 7.2-3.4 13.5-8.9 17.7 6.6 4.2 10.9 11.2 10.9 19.3 0 13.5-11.4 24.5-27 24.5H40V30Zm14.5 12.5v21h16c6.6 0 11.5-4.5 11.5-10.5S77.1 42.5 70.5 42.5h-16Zm0 33.5v23h19c6.9 0 12-5.1 12-11.5S80.4 76 73.5 76h-19Z"
+  />
+</svg>

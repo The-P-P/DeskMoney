@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Sparkles } from "lucide-react";
+import { BrandMark } from "@/components/brand-mark";
 import { Button } from "@/components/ui/button";
-import { BRAND, NAV_LABELS } from "@/domain/labels";
+import { NAV_LABELS } from "@/domain/labels";
 import { enterDemo } from "@/db";
 import { useSessionStore } from "@/stores";
 
@@ -30,12 +31,7 @@ export function WelcomePage() {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-6">
       <div className="w-full max-w-md space-y-8 text-center">
         <div className="space-y-4">
-          <div
-            className="mx-auto flex size-16 items-center justify-center rounded-2xl text-2xl font-bold text-white shadow-lg"
-            style={{ backgroundColor: BRAND.primary }}
-          >
-            B
-          </div>
+          <BrandMark size="lg" className="mx-auto" />
           <div className="space-y-2">
             <h1 className="text-3xl font-bold tracking-tight">{NAV_LABELS.app}</h1>
             <p className="text-muted-foreground">

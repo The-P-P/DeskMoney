@@ -1,6 +1,6 @@
 [package]
 name = "bysmoney"
-version = "0.1.0"
+version = "0.1.1"
 description = "BysMoney — controle de gastos com experiência premium"
 authors = ["BysMoney"]
 edition = "2021"

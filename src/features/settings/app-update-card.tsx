@@ -4,9 +4,11 @@ import { check, type Update } from "@tauri-apps/plugin-updater";
 import { relaunch } from "@tauri-apps/plugin-process";
 import { toast } from "sonner";
 import { Download, RefreshCw } from "lucide-react";
+import { BrandMark } from "@/components/brand-mark";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { NAV_LABELS } from "@/domain/labels";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -132,9 +134,12 @@ export function AppUpdateCard() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-1">
-            <p className="text-sm font-medium">BysMoney</p>
-            <p className="text-sm text-muted-foreground">Versão {version}</p>
+          <div className="flex items-center gap-3">
+            <BrandMark size="sm" className="shadow-md shadow-primary/20" />
+            <div className="space-y-0.5">
+              <p className="text-sm font-medium">{NAV_LABELS.app}</p>
+              <p className="text-sm text-muted-foreground">Versão {version}</p>
+            </div>
           </div>
 
           {!native && (

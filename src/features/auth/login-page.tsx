@@ -12,6 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { BrandMark } from "@/components/brand-mark";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { loginSchema, type LoginInput } from "@/domain/schemas";
 import { NAV_LABELS } from "@/domain/labels";
@@ -41,9 +42,12 @@ export function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center p-6">
       <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>{NAV_LABELS.login}</CardTitle>
-          <CardDescription>Acesse sua conta BysMoney</CardDescription>
+        <CardHeader className="space-y-4">
+          <BrandMark size="md" className="mx-auto" />
+          <div className="space-y-1.5 text-center">
+            <CardTitle>{NAV_LABELS.login}</CardTitle>
+            <CardDescription>Acesse sua conta BysMoney</CardDescription>
+          </div>
         </CardHeader>
         <CardContent>
           <Form {...form}>
